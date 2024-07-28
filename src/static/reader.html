@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>読書感情文</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        #content {
+            white-space: pre-wrap;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            max-height: 80vh;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        .button-container button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #times {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        #review {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #eef;
+            border: 1px solid #ccd;
+        }
+        #expressions {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>マッチ売りの少女</h1>
+    <div>
+        <label for="captureId">Capture ID:</label>
+        <input type="text" id="captureId" name="captureId">
+    </div>
+    <div class="button-container">
+        <button id="toggleButton">読書開始</button>
+    </div>
+    <div id="content">読み込み中...</div>
+    <div id="times">
+        <p id="startTime">開始時間: 未設定</p>
+        <p id="endTime">終了時間: 未設定</p>
+        <p id="duration">読書時間: 未設定</p>
+    </div>
+    <div id="review">
+        <!-- 感情文データを動的にここに追加 -->
+    </div>
+    <div id="expressions">
+        <!-- 表情データを動的にここに追加 -->
+    </div>
+    <script src="reader_script.js"></script>
+</body>
+</html>
+

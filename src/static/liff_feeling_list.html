@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>読書感情文</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/background.png');
+            background-repeat: repeat;
+            background-size: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        #fetch-data {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #fetch-data:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+    <!--
+    <script>
+      // VConsole will be exported to `window.VConsole` by default.
+      var vConsole = new window.VConsole();
+    </script>
+    -->
+    <div class="container">
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>本のタイトル</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- データがここに表示されます -->
+            </tbody>
+        </table>
+    </div>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
+    <script src="liff_feeling_list.js"></script>
+</body>
+</html>

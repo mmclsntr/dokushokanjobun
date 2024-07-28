@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>読書感情文</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/background.png');
+            background-repeat: repeat;
+            background-size: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            width: 80%;
+            height: 80%;
+        }
+
+        .title {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            writing-mode: vertical-rl;
+            text-align: center;
+            font-size: 3em; /* 文字サイズを大きくしました */
+            font-weight: bold; /* 文字を太くしました */
+        }
+
+        .bookshelf {
+            display: flex;
+            justify-content: space-around;
+            flex-grow: 1;
+        }
+
+        .book {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            width: 25%;
+            height: 300px;
+            border: none;
+            padding: 10px;
+            background-color: transparent;
+            background-image: url('book_cover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .book:hover {
+            transform: scale(1.05);
+        }
+
+        .book-title {
+            position: absolute;
+            top: 10px; /* 上部に配置 */
+            width: 100%;
+            text-align: center;
+            font-size: 1.5em;
+            color: white;
+        }
+
+        .book-image {
+            width: 60%;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <p>読書感情文</p>
+        </div>
+        <div class="bookshelf">
+            <div class="book" id="book-3">
+                <div class="book-title">おもちゃ店</div>
+                <img src="assets/books/omochaten/thumbnail.png" alt="book cover" class="book-image" id="book-image-3">
+            </div>
+            <div class="book" id="book-2">
+                <div class="book-title">豚と猪</div>
+                <img src="assets/books/butatoinoshishi/thumbnail.png" alt="book cover" class="book-image" id="book-image-2">
+            </div>
+            <div class="book" id="book-1">
+                <div class="book-title">鉛筆のシン</div>
+                <img src="assets/books/empitsunoshin/thumbnail.png" alt="book cover" class="book-image" id="book-image-1">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        getQueryParam = (param) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const captureId = getQueryParam('captureId') || 'default';
+
+        moveToBook = (captureId, name) => {
+            window.location.href = `book.html?captureId=${captureId}&name=${name}`;
+        }
+
+        document.getElementById('book-3').addEventListener('click', () => {
+            moveToBook(captureId, 'omochaten')
+        });
+        document.getElementById('book-2').addEventListener('click', () => {
+            moveToBook(captureId, 'butatoinoshishi')
+        });
+        document.getElementById('book-1').addEventListener('click', () => {
+            moveToBook(captureId, 'empitsunoshin')
+        });
+
+        window.addEventListener('load', () => {
+        });
+    </script>
+</body>
+</html>
+
+

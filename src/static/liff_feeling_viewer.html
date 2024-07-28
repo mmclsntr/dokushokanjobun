@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>読書感情文</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/background.png');
+            background-repeat: repeat;
+            background-size: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .textarea-container {
+            background-image: url('assets/paper.png');
+            background-size: 100% 100%; /* 画像が切れないように比率を維持 */
+            background-repeat: no-repeat; /* 画像を1回だけ表示 */
+            background-position: center; /* 画像を中央に配置 */
+            width: 95vw;
+            height: 50vh;
+            display: flex;
+            justify-content: flex-end; /* 右寄せに設定 */
+            align-items: center;
+            box-sizing: border-box;
+            padding: 40px;
+        }
+
+        .textarea {
+            width: 100%; /* コンテナの70%の幅 */
+            height: calc(100% - 60px);
+            background: transparent;
+            box-sizing: border-box;
+            writing-mode: vertical-rl; /* 縦書きに設定 */
+            overflow: auto; /* スクロール */
+            font-size: 2em; /* フォントサイズを2倍に設定 */
+            white-space: pre-wrap; /* 改行を正しく反映 */
+        }
+
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in-text {
+            display: inline-block;
+            opacity: 0;
+            animation: textFadeIn 3s forwards;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+        }
+
+        .button {
+            position: absolute;
+            padding: 10px 20px;
+            font-size: 2em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button-back {
+            bottom: 20px;
+            left: 20px;
+            background-color: #800000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="textarea-container">
+         <div class="textarea" id="content">
+        </div>
+    </div>
+
+    <button class="button button-back" onclick="history.back()">もどる</button>
+
+    <script src="liff_feeling_viewer.js"></script>
+</body>
+</html>

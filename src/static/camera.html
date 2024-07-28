@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition with face-api.js</title>
+    <script defer src="face-api.min.js"></script>
+    <script defer src="camera.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+        }
+        .video-container {
+            position: relative;
+            width: 720px;
+            height: 560px;
+            margin-right: 20px;
+        }
+        #video, #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #expressions {
+            margin-top: 10px; /* Adjust margin as needed */
+        }
+        #results {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Capture face</h1>
+    <div>
+        <label for="captureId">Capture ID:</label>
+        <input type="text" id="captureId" name="captureId">
+    </div>
+    <div>
+        <select id="cameraSelect"></select>
+    </div>
+    <button id="toggleButton">Start Sending Data</button>
+    <div class="main-container">
+        <div class="video-container">
+            <video id="video" width="720" height="560" autoplay muted></video>
+            <canvas id="overlay" width="720" height="560"></canvas>
+        </div>
+        <div id="expressions"></div>
+    </div>
+    <div id="results"></div>
+</body>
+</html>

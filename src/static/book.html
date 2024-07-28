@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>読書感情文 - 本</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/background.png');
+            background-repeat: repeat;
+            background-size: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .image-container {
+            width: 30%; /* コンテナの左の30%の幅 */
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 49%; /* 2枚の画像を上下に並べて表示 */
+            object-fit: cover; /* 画像が歪まないようにカバー */
+        }
+
+        .textarea-container {
+            background-image: url('assets/book.png');
+            background-size: 100% 100%; /* 画像が切れないように比率を維持 */
+            background-repeat: no-repeat; /* 画像を1回だけ表示 */
+            background-position: center; /* 画像を中央に配置 */
+            width: 75vw;
+            height: 75vh;
+            display: flex;
+            justify-content: flex-end; /* 右寄せに設定 */
+            align-items: center;
+            box-sizing: border-box;
+            padding: 30px;
+        }
+
+        .textarea {
+            width: 70%; /* コンテナの70%の幅 */
+            height: 100%;
+            background: transparent;
+            box-sizing: border-box;
+            writing-mode: vertical-rl; /* 縦書きに設定 */
+            overflow: auto; /* スクロール */
+            font-size: 2em; /* フォントサイズを2倍に設定 */
+            white-space: pre-wrap; /* 改行を正しく反映 */
+            display: block
+        }
+
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in-text {
+            display: inline-block;
+            opacity: 0;
+            animation: textFadeIn 3s forwards;
+        }
+
+        .button {
+            position: absolute;
+            padding: 10px 20px;
+            font-size: 2em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button-back {
+            bottom: 20px;
+            right: 20px;
+            background-color: #AAAAAA;
+            color: white;
+        }
+
+        .button-start {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            background-color: #955629;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        .button-end {
+            bottom: 20px;
+            left: 20px;
+            background-color: #FFA500;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+   <div class="textarea-container" id="textareaContainer">
+        <div class="image-container" id="imageContainer" style="display: none;"> 
+            <img id="image1" alt="Pic 1">
+            <img id="image2" alt="Pic 2">
+        </div>
+         <div class="textarea" id="content">
+        </div>
+    </div>
+
+    <button class="button button-back" onclick="history.back()">もどる</button>
+    <button class="button button-start" id="startButton">はじめる</button>
+    <button class="button button-end" id="endButton" style="display: none;">おわる</button>
+
+    <script src="book.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>読書感情文 - 結果</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/background.png');
+            background-repeat: repeat;
+            background-size: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .textarea-container {
+            background-image: url('assets/paper.png');
+            background-size: 100% 100%; /* 画像が切れないように比率を維持 */
+            background-repeat: no-repeat; /* 画像を1回だけ表示 */
+            background-position: center; /* 画像を中央に配置 */
+            width: 75vw;
+            height: 75vh;
+            display: flex;
+            justify-content: flex-end; /* 右寄せに設定 */
+            align-items: center;
+            box-sizing: border-box;
+            padding: 40px;
+        }
+
+        .textarea {
+            width: 100%; /* コンテナの70%の幅 */
+            height: 100%;
+            background: transparent;
+            box-sizing: border-box;
+            writing-mode: vertical-rl; /* 縦書きに設定 */
+            overflow: auto; /* スクロール */
+            font-size: 2em; /* フォントサイズを2倍に設定 */
+            white-space: pre-wrap; /* 改行を正しく反映 */
+        }
+
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in-text {
+            display: inline-block;
+            opacity: 0;
+            animation: textFadeIn 3s forwards;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+        }
+
+        .button {
+            position: absolute;
+            padding: 10px 20px;
+            font-size: 2em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button-top:disabled {
+            background-color: gray;
+            color: white;
+        }
+
+        .button-top {
+            bottom: 20px;
+            left: 20px;
+            background-color: #800000;
+            color: white;
+        }
+
+        .button-share {
+            bottom: 20px;
+            right: 20px;
+            background-color: #AAAAAA;
+            color: white;
+        }
+
+        #click-btn {
+            display: block;
+            margin: 20px auto;
+            background-color: purple;
+            color: white;
+            border: 0;
+            padding: 6px 10px;
+        }
+
+        #popup-wrapper {
+            background-color: rgba(0, 0, 0, .5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        #popup-inside {
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+            background: white;
+            margin: 10% auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        #message a {
+            background: purple;
+            color: white;
+            text-decoration: none;
+            padding: 6px 10px;
+        }
+
+        #close {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="textarea-container">
+         <div class="textarea" id="content">
+        </div>
+    </div>
+
+     <div class="loading" id="loading">よみこみちゅう...</div>
+    <button class="button button-share" id="shareButton">QRコード</button>
+    <button class="button button-top" id="topButton" disabled>もくじ</button>
+
+    <div id="popup-wrapper">
+      <div id="popup-inside">
+        <div id="close">x</div>
+            <div id="qrcode">
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="feeling.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,1 @@
+-X 'main.InfluxURL=http://localhost:8086' -X 'main.InfluxToken={token}' -X 'main.InfluxOrg=root' -X 'main.InfluxBucket=data' -X 'main.OpenAIApiKey={apikey}' -X 'main.KintoneDomain={domain}' -X 'main.KintoneApiToken={token}' -X 'main.KintoneAppId={no}' -X 'main.KintoneUserAppApiToken={token}' -X 'main.KintoneUserAppId={no}'
