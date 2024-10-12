@@ -20,17 +20,25 @@ docker compose up -d
 
 Copy `ldflags_template.txt`
 
+Create `ldflags_local.txt` for local test.
+
 Create `ldflags_dev.txt` for development.
 
 Create `ldflags_prod.txt` for production.
 
 
-## Run for develop
+## Run for local test
+
+Run Firestore Emurator
+
+```sh
+gcloud emulators firestore start
+```
 
 `src/` dir
 
 ```sh
-make run-dev
+FIRESTORE_EMULATOR_HOST="[::1]:8913" make run-local
 ```
 
 

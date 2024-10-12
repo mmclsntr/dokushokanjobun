@@ -243,8 +243,8 @@ $RECYCLE.BIN/
 
 backend
 frontend
-datastore/influxdb
+datastore
 
-
+ldflags_local.txt
 ldflags_dev.txt
 ldflags_prod.txt

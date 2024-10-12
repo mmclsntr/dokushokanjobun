@@ -1,5 +1,9 @@
 LDFLAGSPRD := $(shell cat ldflags_prod.txt)
 LDFLAGSDEV := $(shell cat ldflags_dev.txt)
+LDFLAGSLOCAL := $(shell cat ldflags_local.txt)
+
+run-local:
+	go run -ldflags="$(LDFLAGSLOCAL)" main.go
 
 run-dev:
 	go run -ldflags="$(LDFLAGSDEV)" main.go

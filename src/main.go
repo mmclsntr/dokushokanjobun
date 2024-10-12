@@ -13,13 +13,22 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/kintone-labs/go-kintone"
+	"google.golang.org/api/iterator"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 
 	openai "github.com/sashabaranov/go-openai"
+
+	firestore "cloud.google.com/go/firestore"
 )
+
+type ItemV2 struct {
+	Timestamp time.Time `json:"timestamp" firestore:"timestamp,omitempty"`
+	Field     string    `json:"field" firestore:"field,omitempty"`
+	Value     float64   `json:"value" firestore:"value,omitempty"`
+}
 
 type Item struct {
 	Timestamp string  `json:"timestamp"`
@@ -58,7 +67,13 @@ var InfluxURL string
 var InfluxToken string
 var InfluxOrg string
 var InfluxBucket string
+
+var FirestoreProjectID string
+var FirestoreDatabaseID string
+var FirestoreCollectionName string
+
 var OpenAIApiKey string
+
 var KintoneDomain string // example.kintone.com
 var KintoneApiToken string
 var KintoneAppId string
@@ -81,8 +96,8 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	r.POST("/api/capture/:captureId/items/:measurement", postItems)
-	r.GET("/api/capture/:captureId/items/:measurement", getItems)
+	r.POST("/api/capture/:captureId/items/:measurement", postItemsV2)
+	r.GET("/api/capture/:captureId/items/:measurement", getItemsV2)
 
 	r.POST("/api/generate", generateText)
 	r.GET("/api/feeling/:feelingId", getFeelingText)
@@ -92,6 +107,131 @@ func main() {
 	r.GET("/api/user/:userId/feeling/:feelingId", getUserFeeling)
 
 	r.Run(":8080")
+}
+
+func postItemsV2(c *gin.Context) {
+	var items []ItemV2
+	if err := c.ShouldBindJSON(&items); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if FirestoreProjectID == "" || FirestoreDatabaseID == "" || FirestoreCollectionName == "" {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Firestore environment variables not set"})
+		return
+	}
+
+	captureId := c.Param("captureId")
+	measurement := c.Param("measurement")
+
+	ctx := context.Background()
+	client, err := firestore.NewClientWithDatabase(ctx, FirestoreProjectID, FirestoreDatabaseID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	coll := client.Collection(FirestoreCollectionName)
+	capt := coll.Doc(captureId)
+	meas := capt.Collection(measurement)
+
+	for _, item := range items {
+		ref := meas.NewDoc()
+		_, err := ref.Set(ctx, item)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
+	c.Status(http.StatusNoContent)
+}
+
+func getItemsV2(c *gin.Context) {
+	if FirestoreProjectID == "" || FirestoreDatabaseID == "" || FirestoreCollectionName == "" {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Firestore environment variables not set"})
+		return
+	}
+
+	start := c.Query("start")
+	end := c.Query("end")
+	field := c.Query("field")
+
+	if start == "" || end == "" || field == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing required query parameters"})
+		return
+	}
+
+	upper := c.Query("upper")
+	lower := c.Query("lower")
+
+	measurement := c.Param("measurement")
+	captureId := c.Param("captureId")
+
+	ctx := context.Background()
+	client, err := firestore.NewClientWithDatabase(ctx, FirestoreProjectID, FirestoreDatabaseID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	coll := client.Collection(FirestoreCollectionName)
+	capt := coll.Doc(captureId)
+	meas := capt.Collection(measurement)
+
+	startTime, err := time.Parse(time.RFC3339Nano, start)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid timestamp format"})
+		return
+	}
+	endTime, err := time.Parse(time.RFC3339Nano, end)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid timestamp format"})
+		return
+	}
+
+	ref := meas.Where("timestamp", ">=", startTime).Where("timestamp", "<=", endTime).Where("field", "==", field)
+	if lower != "" {
+		lowerF, err := strconv.ParseFloat(lower, 64)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		ref = ref.Where("value", ">=", lowerF)
+	}
+
+	if upper != "" {
+		upperF, err := strconv.ParseFloat(upper, 64)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		ref = ref.Where("value", "<=", upperF)
+	}
+
+	iter := ref.Documents(ctx)
+
+	var items []ItemV2
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+
+		if doc == nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "No document found"})
+			return
+		}
+
+		var item ItemV2
+		doc.DataTo(&item)
+		items = append(items, item)
+	}
+	c.JSON(http.StatusOK, items)
 }
 
 func postItems(c *gin.Context) {
