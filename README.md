@@ -6,14 +6,6 @@ https://protopedia.net/prototype/5393
 
 ## Setup
 
-### Run InfluxDB
-
-`datastore/` dir
-
-```sh
-docker compose up -d
-```
-
 ### Create build flags
 
 `src/` dir
