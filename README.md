@@ -48,3 +48,27 @@ FIRESTORE_EMULATOR_HOST="[::1]:8913" make run-local
 ```sh
 make build-prod
 ```
+
+## Deploy to CloudRun
+
+`src/` dir
+
+```sh
+make deploy-prod
+```
+
+Set indexes of Firestore if needed.
+
+## Open app
+
+app page
+
+```
+https://{cloudrun endpoint}/app?captureId=test
+```
+
+camera page
+
+```
+https://{cloudrun endpoint}/app/camera.html
+```

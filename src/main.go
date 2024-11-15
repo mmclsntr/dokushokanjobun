@@ -83,6 +83,11 @@ var KintoneUserAppId string
 func main() {
 	r := gin.Default()
 
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "hello world",
+		})
+	})
 	r.Static("/app", "./static")
 	// r.Static("/assets", "./static/assets")
 
