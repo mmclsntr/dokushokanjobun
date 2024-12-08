@@ -4,6 +4,9 @@
 https://protopedia.net/prototype/5393
 
 
+## Architecture
+![](docs/system.png)
+
 ## Setup
 
 ### Create build flags
